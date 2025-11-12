@@ -5,20 +5,24 @@ using UnityEngine;
 
 namespace Behaviours
 {
-    public class PointByPointPatrolBehaviour : IRestBehaviour
+    public class PointByPointPatrolBehaviour : IBehaviour
     {
         private readonly Queue<Vector3> _patrolPoints;
-        private Character _character;
+        private readonly CharacterMover _characterMover;
 
-        /*public PointByPointPatrolBehaviour(List<Vector3> patrolPoints, Character character)
+        public PointByPointPatrolBehaviour(List<Vector3> patrolPoints, Character behaviourTarget)
         {
             _patrolPoints = new Queue<Vector3>(patrolPoints);
-            _character = character;
-        }*/
+            _characterMover = behaviourTarget.GetComponent<CharacterMover>();
 
-        public void Resting()
-        {
-            
+            if(_characterMover == null)
+                Debug.LogWarning("[PointByPointPatrolBehaviour] CharacterMover component is missing from target.");
         }
+
+        public void Enter() => throw new System.NotImplementedException();
+
+        public void Update() => throw new System.NotImplementedException();
+
+        public void Exit() => throw new System.NotImplementedException();
     }
 }

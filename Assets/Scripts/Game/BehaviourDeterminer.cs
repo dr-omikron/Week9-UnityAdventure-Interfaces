@@ -1,13 +1,15 @@
-﻿using Behaviours;
+﻿using System.Collections.Generic;
+using Behaviours;
+using Characters;
 using Interfaces;
 using Types;
 using UnityEngine;
 
 namespace Game
 {
-    public class BehaviourFactory
+    public class BehaviourDeterminer
     {
-        public IRestBehaviour GetEnemyRestBehaviour(RestBehaviourTypes spawnPointRestBehaviour)
+        public IBehaviour GetEnemyRestBehaviour(RestBehaviourTypes spawnPointRestBehaviour, List<Vector3> patrolPoints, Character behaviourTarget)
         {
             switch (spawnPointRestBehaviour)
             {
@@ -15,10 +17,10 @@ namespace Game
                     return new IdleBehaviour();
 
                 case RestBehaviourTypes.PatrolByPoints:
-                    return new PointByPointPatrolBehaviour();
+                    return new PointByPointPatrolBehaviour(patrolPoints, behaviourTarget);
 
                 case RestBehaviourTypes.PatrolByRandomDirection:
-                    return new RandomDirectionPatrolBehaviour();
+                    return new RandomDirectionPatrolBehaviour(behaviourTarget);
 
                 default:
                     Debug.LogError("Unknown rest behaviour: " + spawnPointRestBehaviour);
@@ -26,18 +28,18 @@ namespace Game
             }
         }
 
-        public IReactionBehaviour GetEnemyReactionBehaviour(ReactionBehaviourTypes spawnPointReactionBehaviour)
+        public IBehaviour GetEnemyReactionBehaviour(ReactionBehaviourTypes spawnPointReactionBehaviour, Character behaviourTarget, Character reactionTarget)
         {
             switch (spawnPointReactionBehaviour)
             {
                 case ReactionBehaviourTypes.Persecution:
-                    return new PersecutionBehaviour();
+                    return new PersecutionBehaviour(behaviourTarget, reactionTarget);
                 
                 case ReactionBehaviourTypes.RunningAway:
-                    return new RunawayBehaviour();
+                    return new RunawayBehaviour(behaviourTarget, reactionTarget);
                 
                 case ReactionBehaviourTypes.Scared:
-                    return new ScaredBehaviour();
+                    return new ScaredBehaviour(behaviourTarget, reactionTarget);
                 
                 default:
                     Debug.LogError("Unknown reaction behaviour: " + spawnPointReactionBehaviour);

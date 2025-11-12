@@ -2,8 +2,13 @@ using Interfaces;
 
 namespace Behaviours
 {
-    public class IdleBehaviour : IRestBehaviour
+    public class IdleBehaviour : IBehaviour
     {
-        public void Resting() { }
+        public void Enter() { }
+
+        public void Update() { }
+
+        public void Exit() { }
+
     }
 }

@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using UnityEngine;
 using Characters;
+using FunctionsLibrary;
 
 namespace Game
 {
@@ -11,6 +13,7 @@ namespace Game
 
         [SerializeField] private EnemyCharacter _enemyPrefab;
         [SerializeField] private EnemySpawner _enemySpawner;
+        [SerializeField] private List<Transform> _patrolPoints;
 
         private PlayerCharacter _playerCharacter;
 
@@ -19,7 +22,9 @@ namespace Game
             _playerCharacter = Instantiate(_playerPrefab, _playerStartPoint.position, Quaternion.identity);
             _playerCharacter.Initialize(_inputManager);
 
-            _enemySpawner.Initialize(_enemyPrefab);
+            List<Vector3> patrolPointsPositions = StaticFunctions.GetPositionsFromTransforms(_patrolPoints);
+
+            _enemySpawner.Initialize(_playerCharacter, _enemyPrefab, patrolPointsPositions);
             _enemySpawner.Spawn();
         }
     }
