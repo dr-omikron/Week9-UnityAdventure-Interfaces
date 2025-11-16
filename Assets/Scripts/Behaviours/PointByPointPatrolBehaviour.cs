@@ -12,7 +12,6 @@ namespace Behaviours
         private readonly Queue<Vector3> _patrolPoints;
         private readonly CharacterMover _characterMover;
         private readonly CharacterRotator _characterRotator;
-
         private Vector3 _currentPoint;
 
         public PointByPointPatrolBehaviour(List<Vector3> patrolPoints, CharacterMover mover, CharacterRotator rotator)

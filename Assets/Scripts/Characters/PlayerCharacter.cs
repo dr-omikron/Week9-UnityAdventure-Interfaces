@@ -6,6 +6,7 @@ namespace Characters
     public class PlayerCharacter : Character
     {
         private InputManager _inputManager;
+
         private void Update()
         {
             Vector3 direction = GetInputDirection();

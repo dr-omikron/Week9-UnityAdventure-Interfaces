@@ -15,14 +15,10 @@ namespace Game
         public float XMovementInput { get; private set; }
         public float ZMovementInput { get; private set; }
 
-        public bool IsUsing { get; private set; }
-        public bool IsRestart { get; private set; }
-
         private void Update()
         {
             UpdateXInput();
             UpdateZInput();
-            UpdateKeys();
         }
         private void UpdateXInput()
         {
@@ -42,12 +38,6 @@ namespace Game
                 ZMovementInput = yInput;
             else
                 ZMovementInput = 0;
-        }
-
-        private void UpdateKeys()
-        {
-            IsUsing = Input.GetKeyDown(UseKey);
-            IsRestart = Input.GetKeyDown(RestartKey);
         }
 
         private bool IsInDeadZone(float value) => Mathf.Abs(value) <= InputDeadZone;

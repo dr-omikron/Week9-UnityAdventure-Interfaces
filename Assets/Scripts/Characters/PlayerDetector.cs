@@ -9,7 +9,6 @@ namespace Characters
 
         private IBehaviour _restBehaviour;
         private IBehaviour _reactionBehaviour;
-
         private IBehaviour _currentBehaviour;
 
         public void Initialize(IBehaviour restBehaviour, IBehaviour reactionBehaviour)
@@ -30,11 +29,7 @@ namespace Characters
             PlayerCharacter playerCharacter = other.GetComponent<PlayerCharacter>();
 
             if (playerCharacter != null)
-            {
-                _currentBehaviour.Exit();
-                _currentBehaviour = _reactionBehaviour;
-                _currentBehaviour.Enter();
-            }
+                SwitchBehaviour(_reactionBehaviour);
         }
 
         private void OnTriggerExit(Collider other)
@@ -42,11 +37,14 @@ namespace Characters
             PlayerCharacter playerCharacter = other.GetComponent<PlayerCharacter>();
 
             if (playerCharacter != null)
-            {
-                _currentBehaviour.Exit();
-                _currentBehaviour = _restBehaviour;
-                _currentBehaviour.Enter();
-            }
+                SwitchBehaviour(_restBehaviour);
+        }
+
+        private void SwitchBehaviour(IBehaviour behaviour)
+        {
+            _currentBehaviour.Exit();
+            _currentBehaviour = behaviour;
+            _currentBehaviour.Enter();
         }
     }
 }

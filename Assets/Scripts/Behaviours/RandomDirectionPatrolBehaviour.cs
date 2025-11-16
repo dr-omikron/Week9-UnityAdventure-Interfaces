@@ -1,7 +1,7 @@
 using Characters;
 using Interfaces;
 using UnityEngine;
-using Random =  UnityEngine.Random;
+using Random = UnityEngine.Random;
 
 namespace Behaviours
 {
@@ -12,7 +12,6 @@ namespace Behaviours
         private readonly CharacterMover _characterMover;
         private readonly CharacterRotator _characterRotator;
         private Vector3 _direction;
-
         private float _timer;
 
         public RandomDirectionPatrolBehaviour(CharacterMover mover,  CharacterRotator rotator)

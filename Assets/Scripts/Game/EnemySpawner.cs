@@ -11,7 +11,6 @@ namespace Game
         private PlayerCharacter _playerCharacter;
         private EnemySpawnPoint[] _spawnPoints;
         private List<Vector3> _patrolPoints;
-
         private BehaviourDeterminer _behaviourDeterminer;
 
         private void Awake()
