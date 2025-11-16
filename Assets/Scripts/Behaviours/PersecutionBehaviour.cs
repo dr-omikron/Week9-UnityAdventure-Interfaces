@@ -1,23 +1,31 @@
 using Characters;
 using Interfaces;
+using UnityEngine;
 
 namespace Behaviours
 {
     public class PersecutionBehaviour : IBehaviour
     {
-        private readonly Character _persecutionTarget;
-        private readonly Character _behaviourTarget;
+        private readonly Transform _persecutionTarget;
+        private readonly CharacterMover _characterMover;
+        private readonly CharacterRotator _characterRotator;
 
-        public PersecutionBehaviour(Character behaviourTarget, Character persecutionTarget)
+        public PersecutionBehaviour(Transform persecutionTarget, CharacterMover mover, CharacterRotator rotator)
         {
             _persecutionTarget = persecutionTarget;
-            _behaviourTarget = behaviourTarget;
+            _characterMover = mover;
+            _characterRotator = rotator;
         }
 
-        public void Enter() => throw new System.NotImplementedException();
+        public void Enter() { }
 
-        public void Update() => throw new System.NotImplementedException();
+        public void Update()
+        {
+            Vector3 direction = (_persecutionTarget.position - _characterMover.transform.position).normalized;
+            _characterMover.MoveTo(direction);
+            _characterRotator.RotateTo(direction);
+        }
 
-        public void Exit() => throw new System.NotImplementedException();
+        public void Exit() { }
     }
 }

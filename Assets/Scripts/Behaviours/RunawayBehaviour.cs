@@ -1,23 +1,32 @@
 using Characters;
 using Interfaces;
+using UnityEngine;
 
 namespace Behaviours
 {
     public class RunawayBehaviour : IBehaviour
     {
-        private readonly Character _runawayTarget;
-        private readonly Character _behaviourTarget;
+        private readonly Transform _runawayTarget;
+        private readonly CharacterMover _characterMover;
+        private readonly CharacterRotator _characterRotator;
 
-        public RunawayBehaviour(Character runawayTarget, Character behaviourTarget)
+        public RunawayBehaviour(Transform runawayTarget, CharacterMover mover,  CharacterRotator rotator)
         {
             _runawayTarget = runawayTarget;
-            _behaviourTarget = behaviourTarget;
+            _characterMover = mover;
+            _characterRotator = rotator;
         }
 
-        public void Enter() => throw new System.NotImplementedException();
+        public void Enter() { }
 
-        public void Update() => throw new System.NotImplementedException();
+        public void Update()
+        {
+            Vector3 direction = (_characterMover.transform.position - _runawayTarget.position).normalized;
 
-        public void Exit() => throw new System.NotImplementedException();
+            _characterMover.MoveTo(direction);
+            _characterRotator.RotateTo(direction);
+        }
+
+        public void Exit() { }
     }
 }

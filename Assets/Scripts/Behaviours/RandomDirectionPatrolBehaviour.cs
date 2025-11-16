@@ -1,25 +1,56 @@
 using Characters;
 using Interfaces;
 using UnityEngine;
+using Random =  UnityEngine.Random;
 
 namespace Behaviours
 {
     public class RandomDirectionPatrolBehaviour : IBehaviour
     {
+        private const float TimeToChangeDirection = 1f; 
+
         private readonly CharacterMover _characterMover;
+        private readonly CharacterRotator _characterRotator;
+        private Vector3 _direction;
 
-        public RandomDirectionPatrolBehaviour(Character behaviourTarget)
+        private float _timer;
+
+        public RandomDirectionPatrolBehaviour(CharacterMover mover,  CharacterRotator rotator)
         {
-            _characterMover = behaviourTarget.GetComponent<CharacterMover>();
-
-            if(_characterMover == null)
-                Debug.LogWarning("[RandomDirectionPatrolBehaviour] CharacterMover component is missing from target.");
+            _characterMover = mover;
+            _characterRotator = rotator;
         }
 
-        public void Enter() => throw new System.NotImplementedException();
+        public void Enter()
+        {
+            SetRandomDirection();
+        }
 
-        public void Update() => throw new System.NotImplementedException();
+        public void Update()
+        {
+            _timer += Time.deltaTime;
 
-        public void Exit() => throw new System.NotImplementedException();
+            if (_timer >= TimeToChangeDirection)
+            {
+                SetRandomDirection();
+                ResetTimer();
+            }
+
+            _characterMover.MoveTo(_direction.normalized);
+            _characterRotator.RotateTo(_direction.normalized);
+        }
+
+        public void Exit()
+        {
+            ResetTimer();
+        }
+
+        private void SetRandomDirection()
+        {
+            Vector2 randomDirection = Random.insideUnitCircle;
+            _direction = new Vector3(randomDirection.x, 0, randomDirection.y);
+        }
+
+        private void ResetTimer() => _timer = 0;
     }
 }

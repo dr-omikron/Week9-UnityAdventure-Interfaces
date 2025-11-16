@@ -7,22 +7,47 @@ namespace Behaviours
 {
     public class PointByPointPatrolBehaviour : IBehaviour
     {
+        private const float MinDistance = 0.05f;
+
         private readonly Queue<Vector3> _patrolPoints;
         private readonly CharacterMover _characterMover;
+        private readonly CharacterRotator _characterRotator;
 
-        public PointByPointPatrolBehaviour(List<Vector3> patrolPoints, Character behaviourTarget)
+        private Vector3 _currentPoint;
+
+        public PointByPointPatrolBehaviour(List<Vector3> patrolPoints, CharacterMover mover, CharacterRotator rotator)
         {
             _patrolPoints = new Queue<Vector3>(patrolPoints);
-            _characterMover = behaviourTarget.GetComponent<CharacterMover>();
-
-            if(_characterMover == null)
-                Debug.LogWarning("[PointByPointPatrolBehaviour] CharacterMover component is missing from target.");
+            _characterMover = mover;
+            _characterRotator = rotator;
         }
 
-        public void Enter() => throw new System.NotImplementedException();
+        public void Enter()
+        {
+            _currentPoint = GetNewPatrolPoint();
+        }
 
-        public void Update() => throw new System.NotImplementedException();
+        public void Update()
+        {
+            Vector3 directionToPoint = _currentPoint - _characterMover.transform.position;
+            Vector3 movingDirection = new Vector3(directionToPoint.x, 0, directionToPoint.z); 
 
-        public void Exit() => throw new System.NotImplementedException();
+            if (movingDirection.magnitude < MinDistance)
+            {
+                _currentPoint = GetNewPatrolPoint();
+            }
+
+            _characterMover.MoveTo(movingDirection.normalized);
+            _characterRotator.RotateTo(movingDirection.normalized);
+        }
+
+        public void Exit() {}
+
+        private Vector3 GetNewPatrolPoint()
+        {
+            Vector3 patrolPoint = _patrolPoints.Dequeue();
+            _patrolPoints.Enqueue(patrolPoint);
+            return patrolPoint;
+        }
     }
 }

@@ -5,19 +5,17 @@ namespace Behaviours
 {
     public class ScaredBehaviour : IBehaviour
     {
-        private readonly Character _scaringTarget;
-        private readonly Character _behaviourTarget;
+        private readonly Health _health;
 
-        public ScaredBehaviour(Character scaringTarget, Character behaviourTarget)
+        public ScaredBehaviour(Health health)
         {
-            _scaringTarget = scaringTarget;
-            _behaviourTarget = behaviourTarget;
+            _health = health;
         }
 
-        public void Enter() => throw new System.NotImplementedException();
+        public void Enter() => _health.Kill();
 
-        public void Update() => throw new System.NotImplementedException();
+        public void Update() {}
 
-        public void Exit() => throw new System.NotImplementedException();
+        public void Exit() {}
     }
 }

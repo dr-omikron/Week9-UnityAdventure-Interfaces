@@ -33,9 +33,13 @@ namespace Game
             foreach (var spawnPoint in _spawnPoints)
             {
                 EnemyCharacter enemy = Instantiate(_enemyCharacterPrefab, spawnPoint.transform.position, Quaternion.identity);
+                
+                CharacterMover mover = enemy.GetComponent<CharacterMover>();
+                CharacterRotator rotator = enemy.GetComponent<CharacterRotator>();
+                Health health = enemy.GetComponent<Health>();
 
-                IBehaviour restBehaviour = _behaviourDeterminer.GetEnemyRestBehaviour(spawnPoint.RestBehaviour, _patrolPoints, enemy);
-                IBehaviour reactionBehaviour = _behaviourDeterminer.GetEnemyReactionBehaviour(spawnPoint.ReactionBehaviour, enemy, _playerCharacter);
+                IBehaviour restBehaviour = _behaviourDeterminer.GetEnemyRestBehaviour(spawnPoint.RestBehaviour, _patrolPoints, mover, rotator);
+                IBehaviour reactionBehaviour = _behaviourDeterminer.GetEnemyReactionBehaviour(spawnPoint.ReactionBehaviour, mover, rotator, health, _playerCharacter.transform);
 
                 enemy.Initialize(restBehaviour, reactionBehaviour);
             }

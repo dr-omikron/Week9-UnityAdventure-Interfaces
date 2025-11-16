@@ -9,7 +9,11 @@ namespace Game
 {
     public class BehaviourDeterminer
     {
-        public IBehaviour GetEnemyRestBehaviour(RestBehaviourTypes spawnPointRestBehaviour, List<Vector3> patrolPoints, Character behaviourTarget)
+        public IBehaviour GetEnemyRestBehaviour(
+            RestBehaviourTypes spawnPointRestBehaviour, 
+            List<Vector3> patrolPoints, 
+            CharacterMover mover, 
+            CharacterRotator rotator)
         {
             switch (spawnPointRestBehaviour)
             {
@@ -17,10 +21,10 @@ namespace Game
                     return new IdleBehaviour();
 
                 case RestBehaviourTypes.PatrolByPoints:
-                    return new PointByPointPatrolBehaviour(patrolPoints, behaviourTarget);
+                    return new PointByPointPatrolBehaviour(patrolPoints, mover, rotator);
 
                 case RestBehaviourTypes.PatrolByRandomDirection:
-                    return new RandomDirectionPatrolBehaviour(behaviourTarget);
+                    return new RandomDirectionPatrolBehaviour(mover, rotator);
 
                 default:
                     Debug.LogError("Unknown rest behaviour: " + spawnPointRestBehaviour);
@@ -28,19 +32,24 @@ namespace Game
             }
         }
 
-        public IBehaviour GetEnemyReactionBehaviour(ReactionBehaviourTypes spawnPointReactionBehaviour, Character behaviourTarget, Character reactionTarget)
+        public IBehaviour GetEnemyReactionBehaviour(
+            ReactionBehaviourTypes spawnPointReactionBehaviour, 
+            CharacterMover mover, 
+            CharacterRotator rotator, 
+            Health health, 
+            Transform target)
         {
             switch (spawnPointReactionBehaviour)
             {
                 case ReactionBehaviourTypes.Persecution:
-                    return new PersecutionBehaviour(behaviourTarget, reactionTarget);
+                    return new PersecutionBehaviour(target, mover, rotator);
                 
                 case ReactionBehaviourTypes.RunningAway:
-                    return new RunawayBehaviour(behaviourTarget, reactionTarget);
+                    return new RunawayBehaviour(target, mover, rotator);
                 
                 case ReactionBehaviourTypes.Scared:
-                    return new ScaredBehaviour(behaviourTarget, reactionTarget);
-                
+                    return new ScaredBehaviour(health);
+
                 default:
                     Debug.LogError("Unknown reaction behaviour: " + spawnPointReactionBehaviour);
                     return null;
