@@ -19,6 +19,8 @@ namespace Behaviours
             _patrolPoints = new Queue<Vector3>(patrolPoints);
             _characterMover = mover;
             _characterRotator = rotator;
+
+            _currentPoint = GetNewPatrolPoint();
         }
 
         public void Enter()

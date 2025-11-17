@@ -27,6 +27,6 @@ namespace Behaviours
             _characterRotator.RotateTo(direction);
         }
 
-        public void Exit() { }
+        public void Exit() => _characterMover.MoveTo(Vector3.zero);
     }
 }

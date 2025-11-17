@@ -18,6 +18,8 @@ namespace Behaviours
         {
             _characterMover = mover;
             _characterRotator = rotator;
+
+            SetRandomDirection();
         }
 
         public void Enter()

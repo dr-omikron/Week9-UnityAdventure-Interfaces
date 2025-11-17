@@ -48,7 +48,7 @@ namespace Game
                     return new RunawayBehaviour(target, mover, rotator);
                 
                 case ReactionBehaviourTypes.Scared:
-                    return new ScaredBehaviour(health);
+                    return new ScaredBehaviour(health, mover, rotator);
 
                 default:
                     Debug.LogError("Unknown reaction behaviour: " + spawnPointReactionBehaviour);
